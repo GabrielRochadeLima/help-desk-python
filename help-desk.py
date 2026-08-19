@@ -1,11 +1,19 @@
 numeros_chamados = 1
 
-def abrir_chamado(numeros_chamados):
+def abrir_chamado():
+    try:
+        with open("chamados.txt", "r") as arquivo:
+            linhas = arquivo.readlines()
+        numeros_chamados = len(linhas) + 1
+    except FileNotFoundError:
+        numeros_chamados = 1    
     print("Chamado aberto com sucesso!")
     print("Número do chamado: ", numeros_chamados)
-    numeros_chamados += 1
 
-    return numeros_chamados
+    titulo = input("Digite o título do chamado: ")
+
+    with open("chamados.txt", "a") as arquivo:
+        arquivo.write(f"Chamado {numeros_chamados}: {titulo}\n")
 
 def menu_inicial():
     print("=====Bem vindo ao Help desk=====")
@@ -17,7 +25,7 @@ def menu_inicial():
 
     numero_digitado = int(input("Digite o número da opção desejada: "))
     if numero_digitado == 1:
-        numeros_chamados = abrir_chamado(numeros_chamados)
+        abrir_chamado()
     elif numero_digitado == 2:
         print("Consultando chamados...")
     elif numero_digitado == 3:
@@ -39,9 +47,11 @@ def main():
         if op == 1:
             print("Seja bem vindo!")
             cadastrar_usuario()
+        elif op == 2:
+            print("Seja bem vindo de volta!")
+            menu_inicial()
         else:
-            op == 2
-            menu_inicial()  
+            print("Opção inválida. Por favor, escolha uma opção válida.")    
 
 
        
