@@ -9,10 +9,16 @@ def abrir_chamado():
         numero_chamado = 1
 
     titulo = input("Digite o título do chamado: ")
+    descricao = input("Digite a descrição do chamado: ")
+    prioridade = input("Digite a prioridade do chamado (Baixa, Média, Alta): ")
+    setor = input("Digite o setor responsável pelo chamado: ")
+    impacto = input("Digite o impacto do chamado (Baixo, Médio, Alto): ")
+    data_limite = input("Digite a data limite para resolução do chamado (dd/mm/aaaa): ")
+
 
     with open("chamados.txt", "a") as arquivo:
         arquivo.write(
-            f"Chamado {numero_chamado}: {titulo}\n"
+            f"Chamado {numero_chamado}: {titulo} - {descricao} - {prioridade} - {setor} - {impacto} - {data_limite}\n"
         )
 
     print("Chamado aberto com sucesso!")
