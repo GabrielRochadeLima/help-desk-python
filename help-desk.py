@@ -18,25 +18,25 @@ def abrir_chamado():
 
     with open("chamados.txt", "a") as arquivo:
         arquivo.write(
-            f"Chamado {numero_chamado}: {titulo} - {descricao} - {prioridade} - {setor} - {impacto} - {data_limite}\n"
+            f"Chamado {numero_chamado}, {usuario_logado}, {titulo}, {descricao}, {prioridade}, {setor}, {impacto}, {data_limite}\n"
         )
 
     print("Chamado aberto com sucesso!")
     print("Número do chamado:", numero_chamado)
 
-def consultar_chamados():
+def consultar_chamados(usuario_logado):
     try:
         with open("chamados.txt", "r") as arquivo:
             chamados = arquivo.readlines()
-
-        if not chamados:
-            print("Nenhum chamado encontrado.")
-            return
-        
-
-        print("\n===== Chamados Abertos =====")
+        encontrou_chamados = False
         for chamado in chamados:
-            print(chamado.strip())
+            dados_chamado = chamado.strip().split(", ")
+            usuario = dados_chamado[1].strip()
+            if usuario == usuario_logado:
+                encontrou_chamados = True
+                print(chamado.strip())
+        if not encontrou_chamados:
+            print("Nenhum chamado encontrado.")
 
     except FileNotFoundError:
         print("Nenhum chamado encontrado.")
@@ -45,19 +45,25 @@ def menu_inicial():
     print("\n===== Bem vindo ao Help Desk =====")
     print("1 - Login")
     print("2 - Cadastrar usuário")
-    print("3 - Sair")
+    print("3 - Area Administrativa")
+    print("4 - Sair")
 
     numero_digitado = int(
         input("Digite o número da opção desejada: ")
     )
 
     if numero_digitado == 1:
-        login()
+        usuario_logado = login()
+        if usuario_logado:
+            menu_chamados(usuario_logado)
 
     elif numero_digitado == 2:
         cadastrar_usuario()
 
     elif numero_digitado == 3:
+        area_administrativa()
+
+    elif numero_digitado == 4:
         print("Saindo...")
         return False
 
@@ -66,9 +72,9 @@ def menu_inicial():
 
     return True
 
-def menu_chamados():
+def menu_chamados(usuario_logado):
     while True:
-        print("\n===== Menu Help Desk =====")
+        print(f"\n===== Menu Help Desk - Usuário: {usuario_logado} =====")
         print("1 - Abrir chamado")
         print("2 - Consultar chamados")
         print("3 - Sair")
@@ -78,11 +84,11 @@ def menu_chamados():
         )
 
         if numero_digitado == 1:
-            abrir_chamado()
+            abrir_chamado(usuario_logado)
 
         elif numero_digitado == 2:
             print("Consultando chamados...")
-            consultar_chamados()
+            consultar_chamados(usuario_logado)
 
         elif numero_digitado == 3:
             print("Saindo...")
@@ -104,8 +110,8 @@ def login():
 
             if email == email_usuario and senha == senha_usuario:
                print(f"\nLogin realizado com sucesso para o usuário {nome_usuario}!")
-               menu_chamados()
-               return
+               return nome_usuario
+            
         print("\nEmail ou senha incorretos. Tente novamente.")
     except FileNotFoundError:
         print("\nNenhum usuário cadastrado. Por favor, cadastre-se primeiro.")     

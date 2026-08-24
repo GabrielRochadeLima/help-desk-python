@@ -1,6 +1,2 @@
-Chamado 1: Teste
-Chamado 2: Testando
-Chamado 4: teste
-
-Chamado 5: Testando
-Chamado 6: Testando funcionalidades - Preciso de uma ajuda com wifi - Baixa - TI - Médio - 25/08/2026
+Chamado 1, gustavo, teste, teste, Baixa, TI, Alto, 25/08/2026
+Chamado 2, eliza, teste, teste, Baixa, TI, Alto, 25/08/2026
