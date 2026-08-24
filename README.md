@@ -11,9 +11,10 @@ Este projeto está sendo desenvolvido com o objetivo de praticar programação e
 - [x] Menu inicial
 - [x] Abertura de chamados
 - [x] Consulta de chamados
+- [ ] Área administrativa
 - [ ] Alteração de status
 - [ ] Encerramento de chamados
-- [ ] Cadastro de usuários
+- [x] Cadastro de usuários
 - [ ] Banco de dados
 - [ ] Interface web
 
