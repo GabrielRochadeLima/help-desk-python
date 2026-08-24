@@ -24,6 +24,22 @@ def abrir_chamado():
     print("Chamado aberto com sucesso!")
     print("Número do chamado:", numero_chamado)
 
+def consultar_chamados():
+    try:
+        with open("chamados.txt", "r") as arquivo:
+            chamados = arquivo.readlines()
+
+        if not chamados:
+            print("Nenhum chamado encontrado.")
+            return
+        
+
+        print("\n===== Chamados Abertos =====")
+        for chamado in chamados:
+            print(chamado.strip())
+
+    except FileNotFoundError:
+        print("Nenhum chamado encontrado.")
 
 def menu_inicial():
     print("\n===== Bem vindo ao Help Desk =====")
@@ -66,6 +82,7 @@ def menu_chamados():
 
         elif numero_digitado == 2:
             print("Consultando chamados...")
+            consultar_chamados()
 
         elif numero_digitado == 3:
             print("Saindo...")

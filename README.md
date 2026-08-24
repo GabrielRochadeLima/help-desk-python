@@ -9,8 +9,8 @@ Este projeto está sendo desenvolvido com o objetivo de praticar programação e
 ## 🚀 Funcionalidades
 
 - [x] Menu inicial
-- [ ] Abertura de chamados
-- [ ] Consulta de chamados
+- [x] Abertura de chamados
+- [x] Consulta de chamados
 - [ ] Alteração de status
 - [ ] Encerramento de chamados
 - [ ] Cadastro de usuários
