@@ -3,3 +3,4 @@ eliza,eliza@gmail.com,1234
 eliza,eliza@gmail.com,1234
 gustavo,gustavo@gmail.com,12345
 Gabriel Rocha,gabrielrochadelima@hotmail.com,Grl@30103010
+Gustavo,gustavo@gmail.com.br,12345

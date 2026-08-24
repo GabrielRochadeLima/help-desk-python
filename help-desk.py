@@ -99,17 +99,38 @@ def login():
 
     menu_chamados()
 
+def exists_in_file(email):
+    try:
+        with open("usuarios.txt", "r") as arquivo:
+            usuarios = arquivo.readlines()
+
+        for usuario in usuarios:
+            _, email_usuario, _ = usuario.strip().split(",")
+            if email == email_usuario:
+                return True
+    except FileNotFoundError:
+        return False
+
+    return False
 
 def cadastrar_usuario():
     nome = input("Digite seu nome: ")
     email = input("Digite seu email: ")
     senha = input("Digite sua senha: ")
 
-    print(
-        f"\nUsuário {nome} cadastrado com sucesso!")
+    if not nome or not email or not senha:
+        print("\nTodos os campos são obrigatórios. Tente novamente.")
+        return
+    if exists_in_file(email):
+        print("\nEmail já cadastrado. Tente novamente.")
+        return
+
+    
     
     with open("usuarios.txt", "a") as arquivo:
         arquivo.write(f"{nome},{email},{senha}\n")
+
+    print(f"\nUsuário {nome} cadastrado com sucesso!")
 
 
 def main():
