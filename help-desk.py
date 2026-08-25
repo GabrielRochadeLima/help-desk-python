@@ -1,4 +1,26 @@
-def abrir_chamado():
+def area_administrativa():
+    print("\n===== Área Administrativa =====")
+    print("1 - Consultar chamados")
+    print("2 - Consultar usuários")
+    print("3 - Sair")
+
+    numero_digitado = int(
+        input("Digite o número da opção desejada: ")
+    )
+
+    if numero_digitado == 1:
+        consultar_chamados()
+
+    elif numero_digitado == 2:
+        print("Saindo...")
+        return False
+
+    else:
+        print("Opção inválida.")
+
+    return True
+
+def abrir_chamado(usuario_logado):
     try:
         with open("chamados.txt", "r") as arquivo:
             linhas = arquivo.readlines()
