@@ -1,2 +1,0 @@
-Chamado 1, gustavo, teste, teste, Baixa, TI, Alto, 25/08/2026
-Chamado 2, eliza, teste, teste, Baixa, TI, Alto, 25/08/2026
