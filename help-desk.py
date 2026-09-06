@@ -1,24 +1,63 @@
 def area_administrativa():
-    print("\n===== Área Administrativa =====")
-    print("1 - Consultar chamados")
-    print("2 - Consultar usuários")
-    print("3 - Sair")
+    while True:
+        print("\n===== Área Administrativa =====")
+        print("1 - Consultar todos os chamados")
+        print("2 - Consultar usuários")
+        print("3 - Sair")
 
-    numero_digitado = int(
-        input("Digite o número da opção desejada: ")
-    )
+        numero_digitado = input("Digite o número da opção desejada: ")
 
-    if numero_digitado == 1:
-        consultar_chamados()
+        if numero_digitado == "1":
+            consultar_todos_chamados()
 
-    elif numero_digitado == 2:
-        print("Saindo...")
-        return False
+        elif numero_digitado == "2":
+            consultar_usuarios()
 
-    else:
-        print("Opção inválida.")
+        elif numero_digitado == "3":
+            print("Saindo da área administrativa...")
+            break
 
-    return True
+        else:
+            print("Opção inválida.")
+
+
+def consultar_todos_chamados():
+    try:
+        with open("chamados.txt", "r") as arquivo:
+            chamados = arquivo.readlines()
+    except FileNotFoundError:
+        chamados = []
+
+    if not chamados:
+        print("Nenhum chamado encontrado.")
+        return
+
+    print("\n===== Todos os Chamados =====")
+    for chamado in chamados:
+        print(chamado.strip())
+
+
+def consultar_usuarios():
+    try:
+        with open("usuarios.txt", "r") as arquivo:
+            usuarios = arquivo.readlines()
+    except FileNotFoundError:
+        usuarios = []
+
+    if not usuarios:
+        print("Nenhum usuário cadastrado.")
+        return
+
+    print("\n===== Usuários Cadastrados =====")
+    for usuario in usuarios:
+        dados_usuario = usuario.strip().split(",")
+
+        if len(dados_usuario) != 3:
+            print("Registro de usuário inválido ignorado.")
+            continue
+
+        nome_usuario, email_usuario, _ = dados_usuario
+        print(f"Nome: {nome_usuario.strip()} | E-mail: {email_usuario.strip()}")
 
 def abrir_chamado(usuario_logado):
     try:
