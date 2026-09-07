@@ -52,12 +52,13 @@ def consultar_usuarios():
     for usuario in usuarios:
         dados_usuario = usuario.strip().split(",")
 
-        if len(dados_usuario) != 3:
+        if len(dados_usuario) not in (3, 4):
             print("Registro de usuário inválido ignorado.")
             continue
 
-        nome_usuario, email_usuario, _ = dados_usuario
-        print(f"Nome: {nome_usuario.strip()} | E-mail: {email_usuario.strip()}")
+        nome_usuario, email_usuario, _ = dados_usuario[:3]
+        tipo_usuario = dados_usuario[3].strip() if len(dados_usuario) == 4 else "usuario"
+        print(f"Nome: {nome_usuario.strip()} | E-mail: {email_usuario.strip()} | Tipo: {tipo_usuario}")
 
 def abrir_chamado(usuario_logado):
     try:
@@ -122,7 +123,7 @@ def menu_inicial():
         cadastrar_usuario()
 
     elif numero_digitado == 3:
-        area_administrativa()
+        autenticar_administrador()
 
     elif numero_digitado == 4:
         print("Saindo...")
@@ -167,7 +168,11 @@ def login():
             usuarios = arquivo.readlines()
 
         for usuario in usuarios:
-            nome_usuario, email_usuario, senha_usuario = usuario.strip().split(",")
+            dados_usuario = usuario.strip().split(",")
+            if len(dados_usuario) not in (3, 4):
+                continue
+
+            nome_usuario, email_usuario, senha_usuario = dados_usuario[:3]
 
             if email == email_usuario and senha == senha_usuario:
                print(f"\nLogin realizado com sucesso para o usuário {nome_usuario}!")
@@ -176,12 +181,37 @@ def login():
         print("\nEmail ou senha incorretos. Tente novamente.")
     except FileNotFoundError:
         print("\nNenhum usuário cadastrado. Por favor, cadastre-se primeiro.")     
-    print(
-        f"\nLogin realizado com sucesso para o usuário "
-        f"{nome_usuario}!"
-    )
+    return None
 
-    menu_chamados()
+def autenticar_administrador():
+    print("\n===== Autenticacao de Administrador =====")
+    email = input("Digite o email do administrador: ")
+    senha = input("Digite a senha do administrador: ")
+
+    try:
+        with open("usuarios.txt", "r") as arquivo:
+            usuarios = arquivo.readlines()
+
+        for usuario in usuarios:
+            dados_usuario = usuario.strip().split(",")
+
+            if len(dados_usuario) != 4:
+                continue
+
+            _, email_usuario, senha_usuario, tipo_usuario = dados_usuario
+
+            if email == email_usuario and senha == senha_usuario:
+                if tipo_usuario.strip() == "admin":
+                    print("\nAutenticacao de administrador realizada com sucesso!")
+                    area_administrativa()
+                else:
+                    print("\nAcesso negado. Voce nao possui permissao de administrador.")
+                return
+
+        print("\nEmail ou senha incorretos. Tente novamente.")
+    except FileNotFoundError:
+        print("\nNenhum usuario cadastrado. Por favor, cadastre-se primeiro.")
+
 
 def exists_in_file(email):
     try:
@@ -189,7 +219,11 @@ def exists_in_file(email):
             usuarios = arquivo.readlines()
 
         for usuario in usuarios:
-            _, email_usuario, _ = usuario.strip().split(",")
+            dados_usuario = usuario.strip().split(",")
+            if len(dados_usuario) not in (3, 4):
+                continue
+
+            email_usuario = dados_usuario[1]
             if email == email_usuario:
                 return True
     except FileNotFoundError:
@@ -201,9 +235,13 @@ def cadastrar_usuario():
     nome = input("Digite seu nome: ")
     email = input("Digite seu email: ")
     senha = input("Digite sua senha: ")
+    tipo_usuario = input("Digite o tipo de usuario (usuario ou admin): ").lower()
 
-    if not nome or not email or not senha:
+    if not nome or not email or not senha or not tipo_usuario:
         print("\nTodos os campos são obrigatórios. Tente novamente.")
+        return
+    if tipo_usuario not in ("usuario", "admin"):
+        print("\nTipo de usuario invalido. Use usuario ou admin.")
         return
     if exists_in_file(email):
         print("\nEmail já cadastrado. Tente novamente.")
@@ -212,7 +250,7 @@ def cadastrar_usuario():
     
     
     with open("usuarios.txt", "a") as arquivo:
-        arquivo.write(f"{nome},{email},{senha}\n")
+        arquivo.write(f"{nome},{email},{senha},{tipo_usuario}\n")
 
     print(f"\nUsuário {nome} cadastrado com sucesso!")
 
